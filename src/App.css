@@ -1,0 +1,154 @@
+/* ============================================
+   APP CONTAINER - RESPONSIVE DESIGN
+   ============================================ */
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   HEADER - FIJO Y RESPONSIVE
+   ============================================ */
+.app-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.header-back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.header-back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-3px);
+}
+
+/* ============================================
+   MAIN CONTENT - RESPONSIVE
+   ============================================ */
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1400px; /* Más ancho para desktop */
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Vista de menú - centrada en móvil */
+.menu-view {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Vista AR - ocupa todo el ancho necesario */
+.ar-view {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Vista de galería - GRID para desktop */
+.gallery-view {
+  width: 100%;
+  /* Sin max-width para aprovechar pantalla completa */
+}
+
+/* ============================================
+   ANIMACIONES DE TRANSICIÓN
+   ============================================ */
+.fade-in {
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   BOTÓN GALERÍA EN MENÚ
+   ============================================ */
+.gallery-link-container {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.gallery-link-btn {
+  background: white;
+  border: 2px solid #667eea;
+  color: #667eea;
+  padding: 0.75rem 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.gallery-link-btn:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Tablets */
+@media (min-width: 768px) {
+  .app-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .app-main {
+    padding: 2rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .app-header {
+    padding: 1.5rem 3rem;
+  }
+  
+  .app-header h1 {
+    font-size: 2rem;
+  }
+  
+  .gallery-link-btn {
+    font-size: 1.1rem;
+    padding: 1rem 2.5rem;
+  }
+}

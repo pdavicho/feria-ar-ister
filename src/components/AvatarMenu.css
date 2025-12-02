@@ -1,0 +1,320 @@
+/* ============================================
+   AVATAR MENU CONTAINER
+   ============================================ */
+.avatar-menu-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.menu-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.menu-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.menu-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: #718096;
+}
+
+/* ============================================
+   AVATARS GRID - RESPONSIVE
+   ============================================ */
+.avatars-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Móvil: 1 columna */
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Tablet: 2 columnas */
+@media (min-width: 640px) {
+  .avatars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: 2 columnas con más espacio */
+@media (min-width: 1024px) {
+  .avatars-grid {
+    gap: 2rem;
+  }
+}
+
+/* ============================================
+   AVATAR CARD
+   ============================================ */
+.avatar-card {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.avatar-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--avatar-color, #667eea);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.avatar-card:hover::before {
+  transform: scaleX(1);
+}
+
+.avatar-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  border-color: var(--avatar-color, #667eea);
+}
+
+.avatar-card:active {
+  transform: translateY(-4px);
+}
+
+/* Badge de ID */
+.avatar-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--avatar-color, #667eea);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+/* ============================================
+   AVATAR IMAGE
+   ============================================ */
+.avatar-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.avatar-card:hover .avatar-image {
+  transform: scale(1.1);
+}
+
+/* Overlay que aparece en hover */
+.avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to top, 
+    rgba(0, 0, 0, 0.7) 0%, 
+    transparent 60%
+  );
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.avatar-card:hover .avatar-overlay {
+  opacity: 1;
+}
+
+.overlay-text {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   AVATAR INFO
+   ============================================ */
+.avatar-info {
+  text-align: center;
+}
+
+.avatar-name {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #2d3748;
+  transition: color 0.3s ease;
+}
+
+.avatar-card:hover .avatar-name {
+  color: var(--avatar-color, #667eea);
+}
+
+.avatar-description {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #718096;
+  line-height: 1.5;
+}
+
+/* Flecha indicadora */
+.avatar-arrow {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: var(--avatar-color, #667eea);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.avatar-card:hover .avatar-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================================
+   FOOTER STATS
+   ============================================ */
+.menu-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+  font-size: 1.25rem;
+}
+
+.stat-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.avatar-card {
+  animation: fadeInUp 0.5s ease backwards;
+}
+
+.avatar-card:nth-child(1) { animation-delay: 0.1s; }
+.avatar-card:nth-child(2) { animation-delay: 0.2s; }
+.avatar-card:nth-child(3) { animation-delay: 0.3s; }
+.avatar-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 640px) {
+  .menu-title {
+    font-size: 1.5rem;
+  }
+
+  .menu-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .avatar-card {
+    padding: 1.25rem;
+  }
+
+  .avatar-name {
+    font-size: 1.15rem;
+  }
+
+  .avatar-description {
+    font-size: 0.85rem;
+  }
+
+  .stat-card {
+    padding: 0.75rem 1.25rem;
+  }
+
+  .stat-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Desktop hover effects */
+@media (min-width: 1024px) {
+  .avatar-card {
+    padding: 2rem;
+  }
+
+  .avatar-name {
+    font-size: 1.5rem;
+  }
+}
