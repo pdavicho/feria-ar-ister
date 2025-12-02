@@ -1,11 +1,10 @@
 /* ============================================
-   AVATAR MENU CONTAINER - CENTRADO PERFECTO
+   AVATAR MENU - SIN ESPACIOS LATERALES
    ============================================ */
 .avatar-menu-container {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto; /* Centrado horizontal */
-  padding: 1.5rem 1rem;
+  padding: 1rem 0.75rem; /* Solo padding vertical y mínimo lateral */
+  margin: 0;
 }
 
 /* ============================================
@@ -13,12 +12,13 @@
    ============================================ */
 .menu-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
 }
 
 .menu-title {
   margin: 0 0 0.5rem 0;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #2d3748;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -29,18 +29,19 @@
 
 .menu-subtitle {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   color: #718096;
+  line-height: 1.4;
 }
 
 /* ============================================
-   AVATARS GRID - SIEMPRE 1 COLUMNA EN MÓVIL
+   AVATARS GRID
    ============================================ */
 .avatars-grid {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  margin-bottom: 2rem;
+  gap: 0.875rem;
+  margin-bottom: 1.5rem;
 }
 
 /* ============================================
@@ -48,17 +49,18 @@
    ============================================ */
 .avatar-card {
   background: white;
-  border-radius: 20px;
-  padding: 1.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  padding: 0.875rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   border: 2px solid transparent;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.875rem;
+  margin: 0 0.25rem; /* Mínimo margen para evitar corte de sombra */
 }
 
 .avatar-card::before {
@@ -67,51 +69,50 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 3px;
   background: var(--avatar-color, #667eea);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 
-.avatar-card:hover::before,
 .avatar-card:active::before {
   transform: scaleX(1);
 }
 
 .avatar-card:active {
   transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Badge de ID */
+/* Badge */
 .avatar-badge {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  top: 0.5rem;
+  right: 0.5rem;
   background: var(--avatar-color, #667eea);
   color: white;
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 0.8rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   z-index: 10;
 }
 
 /* ============================================
-   AVATAR IMAGE - LAYOUT HORIZONTAL
+   AVATAR IMAGE
    ============================================ */
 .avatar-image-wrapper {
   position: relative;
-  width: 100px;
-  height: 100px;
-  min-width: 100px;
-  border-radius: 16px;
+  width: 85px;
+  height: 85px;
+  min-width: 85px;
+  border-radius: 12px;
   overflow: hidden;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
@@ -121,29 +122,25 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 
 .avatar-card:active .avatar-image {
   transform: scale(1.05);
 }
 
-/* Overlay - solo en tap/active */
+/* Overlay */
 .avatar-overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    to top, 
-    rgba(0, 0, 0, 0.7) 0%, 
-    transparent 60%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 1rem;
+  padding: 0.5rem;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -155,22 +152,22 @@
 .overlay-text {
   color: white;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* ============================================
-   AVATAR INFO - ALINEADO A LA IZQUIERDA
+   AVATAR INFO
    ============================================ */
 .avatar-info {
   flex: 1;
   text-align: left;
-  padding-right: 2rem;
+  padding-right: 2.5rem;
 }
 
 .avatar-name {
   margin: 0 0 0.25rem 0;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #2d3748;
   transition: color 0.3s ease;
@@ -182,18 +179,18 @@
 
 .avatar-description {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: #718096;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
-/* Flecha indicadora */
+/* Flecha */
 .avatar-arrow {
   position: absolute;
-  right: 1rem;
-  bottom: 50%;
-  transform: translateY(50%);
-  font-size: 1.5rem;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
   color: var(--avatar-color, #667eea);
   opacity: 0.3;
   transition: all 0.3s ease;
@@ -201,7 +198,7 @@
 
 .avatar-card:active .avatar-arrow {
   opacity: 1;
-  transform: translateY(50%) translateX(5px);
+  transform: translateY(-50%) translateX(3px);
 }
 
 /* ============================================
@@ -209,32 +206,28 @@
    ============================================ */
 .menu-footer {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 0;
 }
 
 .stat-card {
   background: white;
-  padding: 0.75rem 1.25rem;
+  padding: 0.625rem 1rem;
   border-radius: 50px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-}
-
-.stat-card:active {
-  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .stat-icon {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .stat-text {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: #4a5568;
 }
@@ -245,7 +238,7 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
@@ -254,7 +247,7 @@
 }
 
 .avatar-card {
-  animation: fadeInUp 0.5s ease backwards;
+  animation: fadeInUp 0.4s ease backwards;
 }
 
 .avatar-card:nth-child(1) { animation-delay: 0.1s; }
@@ -263,20 +256,14 @@
 .avatar-card:nth-child(4) { animation-delay: 0.4s; }
 
 /* ============================================
-   RESPONSIVE - SOLO PARA PANTALLAS MUY PEQUEÑAS
+   DESKTOP
    ============================================ */
-@media (max-width: 360px) {
-  .avatar-image-wrapper {
-    width: 80px;
-    height: 80px;
-    min-width: 80px;
+@media (min-width: 768px) {
+  .avatar-menu-container {
+    padding: 2rem 1rem;
   }
 
-  .avatar-name {
-    font-size: 1.1rem;
-  }
-
-  .avatar-description {
-    font-size: 0.8rem;
+  .avatar-card {
+    margin: 0; /* Sin margen en desktop */
   }
 }

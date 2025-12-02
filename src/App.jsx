@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AvatarMenu from './components/AvatarMenu';
 import ArExperience from './components/ArExperience';
 import Gallery from './components/Gallery';
-import './App.css'; // Nuevo archivo de estilos
+import './App.css';
 
 function App() {
   const [view, setView] = useState('menu'); // 'menu', 'ar', 'gallery'
@@ -16,12 +16,12 @@ function App() {
 
   const handleBackToMenu = () => {
     setView('menu');
-    setSelectedAvatar(null); // Limpiamos selección al volver
+    setSelectedAvatar(null);
   };
 
   return (
     <div className="app-container">
-      {/* Header Fijo - Ahora con clase CSS */}
+      {/* Header Fijo */}
       <header className="app-header">
         <h1>RumiAR Experience</h1>
         {view !== 'menu' && (
@@ -35,8 +35,8 @@ function App() {
         )}
       </header>
 
-      {/* Contenido Principal con transiciones */}
-      <main className={`app-main view-${view}`}>
+      {/* Contenido Principal - SIN PADDING */}
+      <main className="app-main">
         {view === 'menu' && (
           <div className="menu-view fade-in">
             <AvatarMenu onSelectAvatar={handleSelectAvatar} />

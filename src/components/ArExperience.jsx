@@ -123,38 +123,35 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
   };
 
   return (
-    <div className="ar-experience-container">
-      {/* Header con info del avatar */}
-      <div className="ar-header">
-        <button onClick={onBack} className="back-button" aria-label="Volver">
-          ← Atrás
-        </button>
-        <h2 className="avatar-title">{selectedAvatar.name}</h2>
-      </div>
+  <div className="ar-experience-container">
+    {/* Header SIN botón de atrás - simplificado */}
+    <div className="ar-header">
+      <h2 className="avatar-title-centered">{selectedAvatar.name}</h2>
+    </div>
 
-      {/* MODEL VIEWER con mejor diseño */}
-      <div className="model-viewer-wrapper">
-        <model-viewer
-          src={selectedAvatar.file} 
-          alt={selectedAvatar.name}
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          camera-controls
-          shadow-intensity="1"
-          auto-rotate
-          rotation-per-second="30deg"
-          className="model-viewer"
-        >
-          <button slot="ar-button" className="ar-button">
-            📱 Ver en AR
-          </button>
-          
-          {/* Mensaje de ayuda */}
-          <div className="ar-help" slot="poster">
-            <p>👆 Arrastra para rotar • 🔍 Pellizca para zoom</p>
-          </div>
-        </model-viewer>
-      </div>
+    {/* MODEL VIEWER con mejor diseño */}
+    <div className="model-viewer-wrapper">
+      <model-viewer
+        src={selectedAvatar.file} 
+        alt={selectedAvatar.name}
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        shadow-intensity="1"
+        auto-rotate
+        rotation-per-second="30deg"
+        className="model-viewer"
+      >
+        <button slot="ar-button" className="ar-button">
+          📱 Ver en AR
+        </button>
+        
+        {/* Mensaje de ayuda */}
+        <div className="ar-help" slot="poster">
+          <p>👆 Arrastra para rotar • 🔍 Pellizca para zoom</p>
+        </div>
+      </model-viewer>
+    </div>
 
       {/* Sección de subida de foto - SOLO GALERÍA */}
       <div className="upload-section">

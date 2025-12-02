@@ -1,5 +1,14 @@
 /* ============================================
-   APP CONTAINER - RESPONSIVE DESIGN
+   RESET GLOBAL
+   ============================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================
+   APP CONTAINER
    ============================================ */
 .app-container {
   min-height: 100vh;
@@ -7,27 +16,30 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  overflow-x: hidden; /* Prevenir scroll horizontal */
 }
 
 /* ============================================
-   HEADER - FIJO Y RESPONSIVE
+   HEADER
    ============================================ */
 .app-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 1rem 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
   z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .app-header h1 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
 }
 
@@ -42,39 +54,33 @@
   transition: all 0.3s ease;
 }
 
-.header-back-btn:hover {
+.header-back-btn:active {
   background: rgba(255, 255, 255, 0.3);
-  transform: translateX(-3px);
+  transform: scale(0.95);
 }
 
 /* ============================================
-   MAIN CONTENT - DIFERENCIADO POR VISTA
+   MAIN CONTENT - CERO PADDING
    ============================================ */
 .app-main {
   flex: 1;
   width: 100%;
-  padding: 1rem;
-  display: flex;
-  justify-content: center; /* CENTRADO PERFECTO */
+  padding: 0; /* CERO PADDING */
+  margin: 0; /* CERO MARGIN */
 }
 
-/* 📱 VISTAS MÓVILES: Menu y AR (max 600px fijo) */
+/* Todas las vistas ocupan 100% del ancho */
 .menu-view,
-.ar-view {
-  width: 100%;
-  max-width: 600px;
-}
-
-/* 🖥️ VISTA WEB: Gallery (sin límite, usa todo el ancho) */
+.ar-view,
 .gallery-view {
   width: 100%;
   max-width: 100%;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 /* ============================================
-   ANIMACIONES DE TRANSICIÓN
+   ANIMACIONES
    ============================================ */
 .fade-in {
   animation: fadeIn 0.4s ease-in;
@@ -92,18 +98,18 @@
 }
 
 /* ============================================
-   BOTÓN GALERÍA EN MENÚ
+   BOTÓN GALERÍA
    ============================================ */
 .gallery-link-container {
   text-align: center;
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem 2rem 1rem;
 }
 
 .gallery-link-btn {
   background: white;
   border: 2px solid #667eea;
   color: #667eea;
-  padding: 0.75rem 2rem;
+  padding: 0.875rem 2rem;
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 500;
@@ -112,21 +118,29 @@
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
 }
 
-.gallery-link-btn:hover {
+.gallery-link-btn:active {
   background: #667eea;
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transform: scale(0.98);
 }
 
 /* ============================================
-   RESPONSIVE BREAKPOINTS
+   RESPONSIVE - SOLO DESKTOP
    ============================================ */
-
-/* Tablets y Desktop - Solo afecta header */
 @media (min-width: 768px) {
   .app-header h1 {
     font-size: 1.8rem;
+  }
+  
+  .app-header {
+    padding: 1.5rem 2rem;
+  }
+  
+  /* En desktop, limitar ancho de menu y ar */
+  .menu-view,
+  .ar-view {
+    max-width: 600px;
+    margin: 0 auto;
   }
 }
 
@@ -137,10 +151,5 @@
   
   .app-header h1 {
     font-size: 2rem;
-  }
-  
-  .gallery-link-btn {
-    font-size: 1.1rem;
-    padding: 1rem 2.5rem;
   }
 }
