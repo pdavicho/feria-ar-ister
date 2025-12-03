@@ -153,20 +153,26 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
       </model-viewer>
     </div>
 
-      {/* Sección de subida de foto - SOLO GALERÍA */}
+      {/* Sección de subida de foto - MEJORADA PARA ANDROID */}
       <div className="upload-section">
         <div className="upload-card">
           <h3 className="upload-title">📸 ¿Ya tienes tu foto?</h3>
-          <p className="upload-description">
-            Después de tomarla en AR, selecciónala aquí para subirla a la galería
-          </p>
+          
+          {/* Instrucciones específicas por plataforma */}
+          <div className="platform-instructions">
+            <p className="instruction-android">
+              <strong>📱 Android:</strong> Toca "Ver en AR" arriba, toma tu foto con el botón de cámara de tu teléfono, y luego selecciónala aquí abajo.
+            </p>
+            <p className="instruction-ios">
+              <strong>🍎 iOS:</strong> Toca "Ver en AR", captura tu momento, y súbelo aquí.
+            </p>
+          </div>
 
           {uploading ? (
             <div className="uploading-state">
               <div className="spinner"></div>
               <p className="uploading-text">Subiendo tu foto...</p>
               
-              {/* Barra de progreso */}
               <div className="progress-bar-container">
                 <div 
                   className="progress-bar-fill" 
@@ -177,7 +183,6 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
             </div>
           ) : (
             <>
-              {/* SOLO BOTÓN DE GALERÍA */}
               <input 
                 type="file" 
                 accept="image/*"
@@ -194,9 +199,10 @@ const ArExperience = ({ selectedAvatar, onGoToGallery, onBack }) => {
                 <span className="button-text">Seleccionar foto de galería</span>
               </button>
 
-              <p className="upload-info">
-                💡 Toma la foto con el botón "Ver en AR" y luego selecciónala aquí
-              </p>
+              <div className="upload-tips">
+                <p className="tip-item">💡 <strong>Consejo:</strong> Asegúrate de tomar la foto en modo AR primero</p>
+                <p className="tip-item">📷 La foto debe mostrar al avatar en tu entorno</p>
+              </div>
             </>
           )}
         </div>

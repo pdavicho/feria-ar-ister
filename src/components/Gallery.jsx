@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../firebase-config';
-import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db, storage } from '../firebase-config';
+import { collection, query, orderBy, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
+import { ref, deleteObject } from 'firebase/storage';
 import './Gallery.css';
 
 const Gallery = ({ onBack }) => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
   const [filterAvatar, setFilterAvatar] = useState('all');
+  const [deleting, setDeleting] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // Lista de avatares disponibles (ajusta según tu AvatarMenu)
+  const ADMIN_PASSWORD = "BINTECH2024"; // Cambia esto si quieres
+
+  // Lista de avatares para filtros
   const avatars = [
-    { name: 'Rumi Científico', file: '/public/ruCientifico.glb' },
-    { name: 'Rumi Médico', file: '/public/ruMedico.glb' },
-    { name: 'Rumi Turista', file: '/public/ruTuristico.glb' },
-    { name: 'Rumi Chef', file: '/public/ruChef.glb' },
-    // Agrega todos tus avatares aquí
+    { name: "Rumi Científico" },
+    { name: "Rumi Chef" },
+    { name: "Rumi Médico" },
+    { name: "Rumi Turista" },
   ];
 
   // Cargar fotos en tiempo real
@@ -38,17 +41,6 @@ const Gallery = ({ onBack }) => {
     return () => unsubscribe();
   }, []);
 
-  // Carrusel automático de avatares cada 10 segundos
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentAvatarIndex((prevIndex) => 
-        (prevIndex + 1) % avatars.length
-      );
-    }, 3000); // 10 segundos
-
-    return () => clearInterval(interval);
-  }, [avatars.length]);
-
   // Filtrar fotos por avatar
   const filteredPhotos = filterAvatar === 'all' 
     ? photos 
@@ -57,18 +49,13 @@ const Gallery = ({ onBack }) => {
   // Abrir modal de foto
   const openPhotoModal = (photo) => {
     setSelectedPhoto(photo);
-    document.body.style.overflow = 'hidden'; // Prevenir scroll
+    document.body.style.overflow = 'hidden';
   };
 
   // Cerrar modal
   const closePhotoModal = () => {
     setSelectedPhoto(null);
     document.body.style.overflow = 'auto';
-  };
-
-  // Navegar entre avatares manualmente
-  const goToAvatar = (index) => {
-    setCurrentAvatarIndex(index);
   };
 
   // Descargar foto
@@ -90,68 +77,89 @@ const Gallery = ({ onBack }) => {
     }
   };
 
+  // Activar modo admin
+  const enableAdminMode = () => {
+    const password = prompt("🔒 Ingresa la contraseña de administrador:");
+    if (password === ADMIN_PASSWORD) {
+      setIsAdmin(true);
+      alert("✅ Modo administrador activado");
+    } else if (password) {
+      alert("❌ Contraseña incorrecta");
+    }
+  };
+
+  // Eliminar foto
+  const deletePhoto = async (photo) => {
+    if (!isAdmin) {
+      alert("🔒 Solo administradores pueden eliminar fotos");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      `¿Estás seguro de eliminar esta foto con ${photo.avatar}?\n\nEsta acción no se puede deshacer.`
+    );
+    
+    if (!confirmDelete) return;
+
+    setDeleting(true);
+
+    try {
+      const urlParts = photo.url.split('/');
+      const filePathEncoded = urlParts[urlParts.length - 1].split('?')[0];
+      const filePath = decodeURIComponent(filePathEncoded);
+      const fileName = filePath.split('/').pop();
+
+      const storageRef = ref(storage, `fotos_feria/${fileName}`);
+      await deleteObject(storageRef);
+
+      await deleteDoc(doc(db, "galeria", photo.id));
+
+      if (selectedPhoto?.id === photo.id) {
+        closePhotoModal();
+      }
+
+      alert("✅ Foto eliminada exitosamente");
+
+    } catch (error) {
+      console.error("Error al eliminar:", error);
+      
+      let errorMessage = "❌ Error al eliminar la foto. ";
+      if (error.code === 'storage/object-not-found') {
+        errorMessage += "El archivo ya no existe en el servidor.";
+        try {
+          await deleteDoc(doc(db, "galeria", photo.id));
+          alert("⚠️ Foto eliminada de la galería (el archivo ya no existía)");
+        } catch (firestoreError) {
+          alert(errorMessage);
+        }
+      } else if (error.code === 'storage/unauthorized') {
+        errorMessage += "No tienes permisos para eliminar.";
+        alert(errorMessage);
+      } else {
+        alert(errorMessage + "Intenta de nuevo.");
+      }
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
-  <div className="gallery-container">
-    {/* Header SIN botón de volver */}
-    <div className="gallery-header">
-      <h1 className="gallery-title">📸 Galería de la Feria</h1>
-      <div className="header-right">
-        <div className="photo-count">
-          {photos.length} {photos.length === 1 ? 'foto' : 'fotos'}
-        </div>
-      </div>
-    </div>
-
-    {/* Resto del código igual... */}
-
-      {/* Carrusel de Avatares 3D */}
-      <div className="avatar-showcase">
-        
-
-        <div className="avatar-carousel">
-          {/* Avatar actual en 3D */}
-          <div className="avatar-display">
-            <model-viewer
-              src={avatars[currentAvatarIndex].file}
-              alt={avatars[currentAvatarIndex].name}
-              auto-rotate
-              rotation-per-second="30deg"
-              camera-controls
-              shadow-intensity="1"
-              className="carousel-model"
-            />
-            <div className="avatar-name-badge">
-              {avatars[currentAvatarIndex].name}
-            </div>
+    <div className="gallery-container">
+      {/* Header simplificado */}
+      <div className="gallery-header">
+        <h1 className="gallery-title">📸 Galería de la Feria</h1>
+        <div className="header-right">
+          <div className="photo-count">
+            {photos.length} {photos.length === 1 ? 'foto' : 'fotos'}
           </div>
-
-          {/* Indicadores de navegación */}
-          <div className="carousel-controls">
-            <button 
-              className="carousel-arrow left"
-              onClick={() => goToAvatar((currentAvatarIndex - 1 + avatars.length) % avatars.length)}
-            >
-              ←
+          {!isAdmin && (
+            <button onClick={enableAdminMode} className="admin-btn" title="Modo Administrador">
+              🔒
             </button>
-
-            <div className="carousel-dots">
-              {avatars.map((avatar, index) => (
-                <button
-                  key={index}
-                  className={`dot ${index === currentAvatarIndex ? 'active' : ''}`}
-                  onClick={() => goToAvatar(index)}
-                  aria-label={`Ver ${avatar.name}`}
-                />
-              ))}
-            </div>
-
-            <button 
-              className="carousel-arrow right"
-              onClick={() => goToAvatar((currentAvatarIndex + 1) % avatars.length)}
-            >
-              →
-            </button>
-          </div>
+          )}
+          {isAdmin && (
+            <span className="admin-badge">👑 Admin</span>
+          )}
         </div>
       </div>
 
@@ -180,7 +188,6 @@ const Gallery = ({ onBack }) => {
       {/* Grid de Fotos */}
       <div className="photos-section">
         {loading ? (
-          // Skeleton loading
           <div className="photos-grid">
             {[...Array(8)].map((_, i) => (
               <div key={i} className="photo-skeleton" />
@@ -200,22 +207,34 @@ const Gallery = ({ onBack }) => {
         ) : (
           <div className="photos-grid">
             {filteredPhotos.map((photo) => (
-              <div 
-                key={photo.id} 
-                className="photo-card"
-                onClick={() => openPhotoModal(photo)}
-              >
-                <img 
-                  src={photo.url} 
-                  alt={`Foto con ${photo.avatar}`}
-                  loading="lazy"
-                  className="photo-image"
-                />
-                <div className="photo-overlay">
-                  <span className="photo-avatar-tag">
-                    {photo.avatar}
-                  </span>
-                  <span className="photo-view-icon">🔍</span>
+              <div key={photo.id} className="photo-card">
+                {isAdmin && (
+                  <button 
+                    className="delete-photo-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deletePhoto(photo);
+                    }}
+                    disabled={deleting}
+                    title="Eliminar foto"
+                  >
+                    🗑️
+                  </button>
+                )}
+
+                <div onClick={() => openPhotoModal(photo)}>
+                  <img 
+                    src={photo.url} 
+                    alt={`Foto con ${photo.avatar}`}
+                    loading="lazy"
+                    className="photo-image"
+                  />
+                  <div className="photo-overlay">
+                    <span className="photo-avatar-tag">
+                      {photo.avatar}
+                    </span>
+                    <span className="photo-view-icon">🔍</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -264,6 +283,15 @@ const Gallery = ({ onBack }) => {
                 >
                   🔗 Abrir original
                 </a>
+                {isAdmin && (
+                  <button 
+                    className="modal-btn delete"
+                    onClick={() => deletePhoto(selectedPhoto)}
+                    disabled={deleting}
+                  >
+                    {deleting ? '⏳ Eliminando...' : '🗑️ Eliminar'}
+                  </button>
+                )}
               </div>
             </div>
           </div>
