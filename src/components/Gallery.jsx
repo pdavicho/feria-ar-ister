@@ -12,7 +12,7 @@ const Gallery = ({ onBack }) => {
   const [deleting, setDeleting] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const ADMIN_PASSWORD = "BINTECH2024"; // Cambia esto si quieres
+  const ADMIN_PASSWORD = "investigacion2025"; // Cambia esto si quieres
 
   // Lista de avatares para filtros
   const avatars = [
